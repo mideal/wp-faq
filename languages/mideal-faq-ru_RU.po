@@ -1,0 +1,113 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2016-11-26 21:53+0545\n"
+"PO-Revision-Date: 2016-11-26 21:53+0545\n"
+"Last-Translator: Denis Mitrofanov <midealf@gmail.com>\n"
+"Language-Team: \n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.11\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: mideal-faq.php\n"
+
+#: mideal-faq.php:66
+msgid "The email address for notifications about new question"
+msgstr "Email адрес для уведомлений о новых вопросах"
+
+#: mideal-faq.php:95
+msgid "Unfortunately, an error occurred. Try again later please"
+msgstr "К сожалению, произошла ошибка. Повторите попытку позже"
+
+#: mideal-faq.php:96
+msgid "Thank you for your question. It will appear after moderation"
+msgstr "Спасибо за ваш вопрос. Он появится после модерации"
+
+#: mideal-faq.php:97 mideal-faq.php:278
+msgid "Publish"
+msgstr "Опубликовать"
+
+#: mideal-faq.php:98 mideal-faq.php:276
+msgid "Unpublish"
+msgstr "Снять с публикации"
+
+#: mideal-faq.php:114 mideal-faq.php:115 mideal-faq.php:345 mideal-faq.php:406
+msgid "Question"
+msgstr "Вопрос"
+
+#: mideal-faq.php:116 mideal-faq.php:117 mideal-faq.php:328
+msgid "Add question"
+msgstr "Добавить вопрос"
+
+#: mideal-faq.php:118
+msgid "Edit question"
+msgstr "Редакстировать вопрос"
+
+#: mideal-faq.php:119
+msgid "New question"
+msgstr "Добавить вопрос"
+
+#: mideal-faq.php:120
+msgid "FAQ"
+msgstr "Вопрос ответ"
+
+#: mideal-faq.php:140 mideal-faq.php:157 mideal-faq.php:262
+msgid "Ansver"
+msgstr "Ответ"
+
+#: mideal-faq.php:167
+msgid "Ansver a question"
+msgstr "Ответ на вопрос"
+
+#: mideal-faq.php:177
+msgid "User Email"
+msgstr "Email пользователя"
+
+#: mideal-faq.php:218
+msgid "List a question"
+msgstr "Список вопросов"
+
+#: mideal-faq.php:269
+msgid "Edit"
+msgstr "Редактировать"
+
+#: mideal-faq.php:271 mideal-faq.php:407
+msgid "Reply"
+msgstr "Ответить"
+
+#: mideal-faq.php:274
+msgid "Delete"
+msgstr "Удалить"
+
+#: mideal-faq.php:285
+msgid "No question"
+msgstr "Нет вопросов"
+
+#: mideal-faq.php:333 mideal-faq.php:335 mideal-faq.php:404
+msgid "Name"
+msgstr "Имя"
+
+#: mideal-faq.php:339 mideal-faq.php:405
+msgid "E-mail"
+msgstr "E-mail"
+
+#: mideal-faq.php:341
+msgid "Your E-mail"
+msgstr "Ваш E-mail"
+
+#: mideal-faq.php:347
+msgid "Your question"
+msgstr "Ваш вопрос"
+
+#: mideal-faq.php:354
+msgid "Ask a question"
+msgstr "Задать вопрос"
+
+#: mideal-faq.php:393 mideal-faq.php:403
+msgid "New question on site"
+msgstr "Новый вопрос на сайте"
