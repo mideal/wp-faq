@@ -1,18 +1,18 @@
 <?php
 /**
- * @author  Mideal
- * @package Mideal Faq
+ * @author  mideal
+ * @package Question answer
  * @version 1.0
  */
 /*
-Plugin Name: Mideal Faq
+Plugin Name: Question answer
 Plugin URI: http://mideal.ru/wordpress-plugin/mideal-faq/
-Description: Ajax, bootstrap Faq.
+Description: Question answer ajax bootstrap plugin with gravatar avatar. Looks like chat.
 Author: Mideal
 Version: 1.0
 Author URI: http://mideal.ru/
 */
-/*  Copyright 2016  Mideal  (email: midealf@gmail.com)
+/*  Copyright 2016  mideal  (email: midealf@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -35,8 +35,6 @@ if (!defined('ABSPATH'))
     exit;
 }
 
-//wp_enqueue_style( 'mideal-faq-style-test', plugins_url( '/bootstrap/css/bootstrap.min.css', __FILE__ ),false,'1.0','all' );
-
 // --------------------add style plugin-----------------------------
 wp_enqueue_style( 'mideal-faq-style', plugins_url( '/css/style.css', __FILE__ ),false,'1.0','all' );
 wp_enqueue_style( 'mideal-faq-bootstrap', plugins_url( '/css/bootstrap.css', __FILE__ ),false,'1.0','all' );
@@ -48,12 +46,13 @@ wp_enqueue_script( 'mideal-faq-base', plugins_url( '/js/base.js', __FILE__ ), ar
 add_action( 'admin_menu', 'mideal_faq_create_menu' );
 
 function mideal_faq_create_menu() {
-    add_options_page( 'Mideal Faq', 'Mideal Faq', 8, __FILE__, 'mideal_faq_settings_page' );
+    add_options_page( 'Question answer', 'Question answer', 8, __FILE__, 'mideal_faq_settings_page' );
     add_action( 'admin_init', 'register_mideal_faq_settings' );
 }
 
 function register_mideal_faq_settings() {
     register_setting( 'mideal-faq-settings-group', 'mideal_faq_setting_email' );
+
 }
 
 function mideal_faq_settings_page() {
@@ -74,6 +73,16 @@ function mideal_faq_settings_page() {
 </form>
 </div>
 <?php }
+
+
+// --------------------add setting linc in admin panel----------------------------
+function mideal_faq_add_settings_link( $links ) {
+    $settings_link = '<a href="options-general.php?page=mideal-faq%2Fmideal-faq.php">' . __( 'Settings' ) . '</a>';
+    array_push( $links, $settings_link );
+    return $links;
+}
+$plugin = plugin_basename( __FILE__ );
+add_filter( "plugin_action_links_$plugin", 'mideal_faq_add_settings_link' );
 
 
 
@@ -105,7 +114,7 @@ function mideal_faq_init(){
 
 
 
-//------------------------------- Новый тип записи--------------------------------------------
+//------------------------------- New type post --------------------------------------------
 
 
 add_action( 'init', 'create_mideal_faq' );
@@ -120,27 +129,27 @@ function create_mideal_faq() {
             'add_new_item'       => __("Add question", "mideal-faq"),
             'edit_item'          => __("Edit question", "mideal-faq"),
             'new_item'           => __("New question", "mideal-faq"),
-            'menu_name'          => __("FAQ", "mideal-faq"),
+            'menu_name'          => __("Question", "mideal-faq"),
             ),
             'public' => true,
             'menu_position' => 15,
             'supports' => array( 'title', 'editor' ),
-           // 'menu_icon' => plugins_url( 'images/image.png', __FILE__ ),
+           // 'menu_icon' => plugins_url( 'img/icon.png', __FILE__ ),
         )
     );
 }
 
-// ------------------------ Колонка ответы в админ панели ----------------
+// ------------------------ Answer colum ----------------
 
 add_filter( 'manage_mideal_faq_posts_columns', 'set_custom_edit_faq_columns' );
 add_action( 'manage_mideal_faq_posts_custom_column' , 'custom_faq_column', 10, 2 );
 
 function set_custom_edit_faq_columns( $columns ) {
 
-    $num = 2; // после какой по счету колонки вставлять новые
+    $num = 2;
 
     $new_columns = array(
-        'faq_ansver' => __("Ansver", "mideal-faq"),
+        'faq_answer' => __("Answer", "mideal-faq"),
     );
     return array_slice( $columns, 0, 2 ) + $new_columns + array_slice( $columns, $num );
 }
@@ -148,16 +157,16 @@ function set_custom_edit_faq_columns( $columns ) {
 function custom_faq_column( $column, $post_id ) {
     switch ( $column ) {
 
-        case 'faq_ansver' :
-            echo get_post_meta( $post_id, 'mideal_faq_ansver', true );
+        case 'faq_answer' :
+            echo get_post_meta( $post_id, 'mideal_faq_answer', true );
             break;
     }
 }
 
-// добавляем возможность сортировать колонку
+// ------------------------------- add sort colum -------------------------------
 add_filter( 'manage_edit-mideal_faq_sortable_columns', 'add_views_sortable_column' );
 function add_views_sortable_column( $sortable_columns ){
-    $sortable_columns['faq_ansver'] = __( "Ansver", "mideal-faq" );
+    $sortable_columns['faq_answer'] = __( "Answer", "mideal-faq" );
     return $sortable_columns;
 }
 
@@ -167,14 +176,14 @@ function add_views_sortable_column( $sortable_columns ){
 add_action( 'add_meta_boxes', 'mideal_faq_add_fields' );
 
 function mideal_faq_add_fields() {
-    add_meta_box( 'mideal_faq_fields', __("Ansver a question", "mideal-faq"), 'mideal_faq_add_field_func', 'mideal_faq', 'normal', 'high'  );
+    add_meta_box( 'mideal_faq_fields', __("Answer a question", "mideal-faq"), 'mideal_faq_add_field_func', 'mideal_faq', 'normal', 'high'  );
 }
 
 
 function mideal_faq_add_field_func( $faq_item ){
-    $faq_ansver = get_post_meta( $faq_item->ID, 'mideal_faq_ansver', true );
+    $faq_answer = get_post_meta( $faq_item->ID, 'mideal_faq_answer', true );
     $faq_email = get_post_meta( $faq_item->ID, 'mideal_faq_email', true );
-    wp_editor( $faq_ansver,'faq_add_ansver', array( 'textarea_name' => 'mideal_faq_ansver' ));
+    wp_editor( $faq_answer,'faq_add_answer', array( 'textarea_name' => 'mideal_faq_answer' ));
     echo '<br />';
     echo '<br />';
     echo __( "User Email", "mideal-faq" ).': <input type="text" name="mideal_faq_email" value="'.$faq_email.'" size="25" />';
@@ -196,12 +205,12 @@ function mideal_faq_update( $post_id ){
     } elseif( ! current_user_can( 'edit_post', $post_id ) ) {
         return $post_id;
     }
-    if ( ! isset( $_POST['mideal_faq_ansver'] ) ) return $post_id;
+    if ( ! isset( $_POST['mideal_faq_answer'] ) ) return $post_id;
     
-    $my_data = sanitize_text_field( $_POST['mideal_faq_ansver'] );
+    $my_data = sanitize_text_field( $_POST['mideal_faq_answer'] );
     $my_data2 = sanitize_text_field( $_POST['mideal_faq_email'] );
 
-    update_post_meta( $post_id, 'mideal_faq_ansver', $my_data );
+    update_post_meta( $post_id, 'mideal_faq_answer', $my_data );
     update_post_meta( $post_id, 'mideal_faq_email', $my_data2 );
 }
 
@@ -262,18 +271,18 @@ function mideal_faq_list() {
             echo "<img class='media-object chat-avatar' src='".$user_avatar_url."' alt='avatar'>";
             echo "<div class='chat-text'>".$post->post_content."</div>";
             echo "</div>";
-            $ansver_text = get_post_meta( $post->ID, 'mideal_faq_ansver', true );
-            if ($ansver_text) {
-                echo "<div class='faq-ansver'>";
-                echo "<div class='faq-header'>".__("Ansver", "mideal-faq")."</div>";
+            $answer_text = get_post_meta( $post->ID, 'mideal_faq_answer', true );
+            if ($answer_text) {
+                echo "<div class='faq-answer'>";
+                echo "<div class='faq-header'>".__("Answer", "mideal-faq")."</div>";
                 echo "<div class='clearfix'></div>";
                 echo "<img class='media-object chat-avatar' src='".plugins_url( 'img/avatar-default.png', __FILE__ )."' alt='avatar'>";
-                echo "<div class='chat-text'>".$ansver_text."</div>";
+                echo "<div class='chat-text'>".$answer_text."</div>";
                 echo "</div>";
             }
             if( 'true' == $user_faq_admin ){
                 echo '<div class="mideal-faq-admin-btn">';
-                if( $ansver_text ) {
+                if( $answer_text ) {
                     $text_btn_reply = __( "Edit", "mideal-faq" );
                 } else {
                     $text_btn_reply = __( "Reply", "mideal-faq" );
@@ -324,9 +333,9 @@ function mideal_faq_list() {
         echo '</ul>';
     }
     wp_reset_postdata();
+    echo "</ul>";
 }
 
-    echo "</ul>";
 
 // ------------------- add new question----------------
 
@@ -396,7 +405,7 @@ function mideal_faq_add_callback() {
         $usermail = $_POST['mideal_faq_email'];
         $faq_content  = nl2br($_POST['mideal_faq_question']);
         $msg  = "<html><body style='font-family:Arial,sans-serif;'>";
-        $msg .= "<h2 style='font-weight:bold;border-bottom:1px dotted #ccc;'>".__('New question on site', 'mideal-faq')." ".get_option('blogname').":</h2>\r\n";
+        $msg .= "<h2 style='font-weight:bold;border-bottom:1px dotted #ccc;'>".__('New question on site', 'mideal-faq').":</h2>\r\n";
         $msg .= "<p><strong>".__('Name', 'mideal-faq').":</strong> ".$username."</p>\r\n";
         $msg .= "<p><strong>".__('E-mail', 'mideal-faq').":</strong> ".$usermail."</p>\r\n";
         $msg .= "<p><strong>".__('Question', 'mideal-faq').":</strong> ".$faq_content."</p>\r\n";
